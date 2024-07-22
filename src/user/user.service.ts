@@ -4,6 +4,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Puuser } from 'src/entities/Puuser';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt'; // Importer bcryptjs
+import { createHash } from 'crypto'; // Importer la bibliothèque crypto pour MD5
+
+
 
 @Injectable()
 export class UserService {
@@ -20,8 +24,30 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(username: string) {
+    return  this.userRepository.findOne({ where: { cname: username } });
+  }
+  
+  async validateUser(
+    username: string,
+    password: string,
+  ): Promise<Puuser | null> {
+    const user = await this.userRepository.findOne({
+      where: { cname: username },
+    });
+
+    if (user) {
+      // Convertir le mot de passe en clair en hachage MD5
+      const hashedPassword = createHash('md5')
+        .update(password)
+        .digest('hex')
+        .toUpperCase();
+
+      if (user.cpwd === hashedPassword) {
+        return user;
+      }
+    }
+    return null;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

@@ -19,6 +19,13 @@ import { PssinclController } from './pssincl/pssincl.controller';
 import { PssinclService } from './pssincl/pssincl.service';
 import { UserModule } from './user/user.module';
 import { PssicclassminModule } from './pssicclassmin/pssicclassmin.module';
+import { PssinchcModule } from './pssinchc/pssinchc.module';
+import { PssinclsetModule } from './pssinclset/pssinclset.module';
+import { PssinlossadjModule } from './pssinlossadj/pssinlossadj.module';
+import { PssinsettlementModule } from './pssinsettlement/pssinsettlement.module';
+import { PssinverclModule } from './pssinvercl/pssinvercl.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -48,6 +55,16 @@ import { PssicclassminModule } from './pssicclassmin/pssicclassmin.module';
     PssinclModule,
     UserModule,
     PssicclassminModule,
+    PssinchcModule,
+    PssinclsetModule,
+    PssinlossadjModule,
+    PssinsettlementModule,
+    PssinverclModule,
+    JwtModule.register({
+      secret: 'MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQBa/HH1Q3+kRoJqNiXMZTU0dhWI6gL9IKiGmqTFtw7VnNLl35Fw9T0FxTLZuSKl3vHYPo5fM/iMCziOkHJRVbR9EAAwyIYxWvyHQYVbr7+YAMXgygdwFiTXig65SLo06dOme81JRc8NfMIzv3ZXwOCaNp22+FjadzQTHP1RPTA5Dm3uxk=', // Utilisez la même clé secrète que précédemment
+      signOptions: { expiresIn: '60m' },
+    }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
